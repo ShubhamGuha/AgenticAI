@@ -1,0 +1,12 @@
+streamlit
+langchain
+langchain-core
+langchain-community
+python-dotenv
+docx2txt
+pypdf
+openai
+langchain-openai
+langchain-text-splitters
+langchain-classic
+chromadb
