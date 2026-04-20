@@ -6,7 +6,7 @@ from typing import TypedDict, Optional, Dict
 import re
 from dotenv import load_dotenv
 import os
-import requests
+# import requests  # Note: Currently unused, can be removed if not needed for future API calls
 import logging
 
 # ==================== CONFIGURATION ====================
@@ -102,14 +102,14 @@ async def detect_intent(state: CSRAgentState) -> CSRAgentState:
     - 'unknown': Unrecognized intent
     
     High-Risk Query Detection:
-    - Flags queries containing keywords like "liquidate", "retirement", "all my savings"
+    - Flags queries containing keywords like "review", "approve", "apply", "plan change"
     - Sets hitl_flag=True for HITL (Human-in-the-Loop) review
     
     Args:
-        state (FinanceState): Current state with user input
+        state (CSRAgentState): Current state with user input
         
     Returns:
-        FinanceState: Updated state with detected intent and hitl_flag
+        CSRAgentState: Updated state with detected intent and hitl_flag
     """
     user_input = state['user_input']
     short_term_memory = state.get('short_term_memory', {})
@@ -182,7 +182,9 @@ async def issue_resolution(state: CSRAgentState) -> CSRAgentState:
     
     Args:
         state (CSRAgentState): Current state with user input and profile
-    CSRAgentState: Updated state with response data
+        
+    Returns:
+        CSRAgentState: Updated state with response data and memory
     """
     user_input = state['user_input']
     user_profile = state.get('user_profile', {})
@@ -221,6 +223,7 @@ async def provide_advice(state: CSRAgentState) -> CSRAgentState:
     user_input = state['user_input']
     user_profile = state.get('user_profile', {})
     long_term_memory = state.get('long_term_memory', {})
+    short_term_memory = state.get('short_term_memory', {})
 
     # Prompt LLM to generate personalized advice
     prompt = (
@@ -231,6 +234,12 @@ async def provide_advice(state: CSRAgentState) -> CSRAgentState:
     )
     response = await llm.ainvoke(prompt)
     message = response.content.strip()
+
+    # Store advice in long-term memory for future reference
+    long_term_memory['last_advice'] = message
+    short_term_memory['last_advice'] = user_input
+    
+    return {**state, "data": {"response": message}, "long_term_memory": long_term_memory, "short_term_memory": short_term_memory}
 
 # ==================== HUMAN-IN-THE-LOOP (HITL) ====================
 async def human_in_the_loop(state: CSRAgentState) -> CSRAgentState:
@@ -280,7 +289,7 @@ def get_next_node(state: CSRAgentState) -> str:
     Routing logic for conditional edges in the LangGraph workflow.
     
     Routes to different nodes based on detected intent and flags:
-    - Approval queries -> Human in the Loop
+    - High-risk queries -> Human in the Loop
     - Valid intents -> Corresponding handler nodes
     - Invalid/unknown -> Fallback
     
@@ -290,15 +299,19 @@ def get_next_node(state: CSRAgentState) -> str:
     Returns:
         str: Next node name in the workflow
     """
+    # Check if query requires human approval/review
     if state.get("hitl_flag", False):
         return "human_in_the_loop"
+    # Route to appropriate handler based on detected intent
+    # Note: Extended intents list for flexibility with additional intent types
     valid_intents = ["profile", "request", "incident", "feature enhancement","support", "product", "office", "location"]
     return state["intent"] if state["intent"] in valid_intents else "fallback"
 
 # Initialize StateGraph with CSRAgentState as the state schema
+# This graph orchestrates the entire workflow from intent detection to response generation
 builder = StateGraph(CSRAgentState)
 
-# Add all nodes to the graph
+# Add all nodes to the graph - each node represents a processing stage
 builder.add_node(INTENT_DETECTION_NODE, detect_intent)
 builder.add_node("Collect User Data", collect_user_data)
 builder.add_node("Request Information", request_information)
@@ -307,9 +320,9 @@ builder.add_node("Provide Advice", provide_advice)
 builder.add_node("Human in the Loop", human_in_the_loop)
 builder.add_node("Fallback", fallback)
 
-# Set intent detection as the entry point
+# Set intent detection as the entry point - all conversations start with intent classification
 builder.set_entry_point(INTENT_DETECTION_NODE)
-# Add conditional edges: Intent Detection -> Intent-specific nodes
+# Add conditional edges: Route from Intent Detection -> Intent-specific nodes based on detected intent
 builder.add_conditional_edges(
     INTENT_DETECTION_NODE,
     get_next_node,
@@ -323,58 +336,60 @@ builder.add_conditional_edges(
     }
 )
 
-# Compile the graph into an executable workflow
+# Compile the graph into an executable workflow with default END node handling
 CSR_bot = builder.compile()
 
 # ==================== STREAMLIT UI SETUP ====================
-# Configure Streamlit page metadata
+# Configure Streamlit page metadata and title
 st.set_page_config(page_title="TechTrend Innovations - CSR Bot", page_icon="💬", layout="centered")
 st.title("TechTrend Innovations - Customer Support Representative")
 st.caption("Your trusted assistant for all customer support needs.")
 
 # Initialize session state for message history and user data persistence
+# Session state persists across reruns within the same user session
 if "messages" not in st.session_state:
-    st.session_state.messages = []
+    st.session_state.messages = []  # Store conversation history
 if "long_term_memory" not in st.session_state:
-    st.session_state.long_term_memory = {}
+    st.session_state.long_term_memory = {}  # Persist user context across interactions
 if "user_profile" not in st.session_state:
-    st.session_state.user_profile = {}
+    st.session_state.user_profile = {}  # Store collected user information
 
-# Display chat message history
+# Display chat message history from previous interactions
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-# Main chat input and response loop
+# Main chat input and response loop - processes new user messages
 if user_input := st.chat_input("Type your message..."):
-    # Add user message to history
+    # Add user message to history for context
     st.session_state.messages.append({"role": "user", "content": user_input})
     with st.chat_message("user"):
         st.markdown(user_input)
 
-# Process user input through CSR bot
+    # Process user input through CSR bot workflow
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
-            # Initialize state for workflow execution
+            # Initialize state dictionary with current context for workflow execution
+            # This state flows through all nodes in the LangGraph workflow
             state = {
                 "user_input": user_input,
-                "intent": None,
-                "data": None,
-                "user_profile": st.session_state.get("user_profile", {}),
-                "short_term_memory": {},
-                "long_term_memory": st.session_state.long_term_memory,
-                "hitl_flag": False
+                "intent": None,  # Will be detected by first node
+                "data": None,  # Response will be populated by handler nodes
+                "user_profile": st.session_state.get("user_profile", {}),  # Load existing profile
+                "short_term_memory": {},  # Fresh per-conversation context
+                "long_term_memory": st.session_state.long_term_memory,  # Cross-session memory
+                "hitl_flag": False  # Will be set if query requires human review
             }
-            # Execute the LangGraph workflow asynchronously
+            # Execute the LangGraph workflow asynchronously and get final state
             final_state = asyncio.run(CSR_bot.ainvoke(state))
             bot_reply = final_state['data']['response']
             
-            # Update session state with new profile and memory data
+            # Update session state with learned information for future interactions
             st.session_state.user_profile = final_state.get('user_profile', {})
             st.session_state.long_term_memory = final_state.get('long_term_memory', {})
             
-            # Display assistant response
+            # Display assistant response to user
             st.markdown(bot_reply)
     
-    # Add assistant response to message history
+    # Add assistant response to message history for context in next iteration
     st.session_state.messages.append({"role": "assistant", "content": bot_reply})
