@@ -142,7 +142,7 @@ async def detect_intent(state: FinanceState) -> FinanceState:
     intent = match.group(1) if match else "unknown"
     short_term_memory['previous_intent'] = intent
 
-    # Detect high-risk keywords for HITL review
+    # Detect keywords for HITL review
     high_risk_keywords = ["liquidate", "retirement", "all my savings", "entire portfolio"]
     hitl_flag = any(keyword in user_input.lower() for keyword in high_risk_keywords)
 
