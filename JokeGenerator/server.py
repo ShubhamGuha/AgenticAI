@@ -13,7 +13,7 @@ The server creates a pipeline that:
 4. Returns the generated joke as a response
 
 Author: Shubham Guha
-Developed with help from Edureka Training and GitHub Copilot
+Documented with help of GitHub Copilot
 """
 
 from fastapi import FastAPI

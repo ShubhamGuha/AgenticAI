@@ -3,7 +3,7 @@ FinAdvise - Personal Finance Assistant
 A Streamlit-based AI-powered finance assistant using LangGraph, LLaMA 3.3, and Alpha Vantage API.
 
 Author: Shubham Guha
-Contributions: Edureka Training, GitHub Copilot Documentation
+Contributions:  GitHub Copilot Documentation
 Last Updated: April 2026
 """
 

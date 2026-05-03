@@ -7,7 +7,7 @@ server and generates jokes about topics specified by the user. It uses LangServe
 RemoteRunnable to communicate with the FastAPI backend.
 
 Author: Shubham Guha
-Developed with help from Edureka Training and GitHub Copilot
+Documentation with help from GitHub Copilot
 """
 
 from langserve import RemoteRunnable

@@ -1,6 +1,6 @@
 """
 Legal Document Review Application
-Author: Shubham Guha (with assistance from Edureka training and GitHub Copilot)
+Author: Shubham Guha (with assistance from GitHub Copilot)
 Description: A Streamlit-based application that uses Azure OpenAI and LangChain 
              to analyze legal documents, extract key information, and provide 
              structured analysis based on user queries.

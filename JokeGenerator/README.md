@@ -1,6 +1,6 @@
 # Joke Generator with LangChain and LangServe
 
-**Created with the help of Edureka Training and GitHub Copilot**
+**Documented with the help of GitHub Copilot**
 
 **Author:** Shubham Guha
 
