@@ -1,0 +1,10 @@
+llama-index
+llama-index-core
+llama-index-llms-cohere
+llama-index-embeddings-cohere
+python-dotenv
+nest-asyncio
+python-dateutil
+tzdata
+pandas
+cohere

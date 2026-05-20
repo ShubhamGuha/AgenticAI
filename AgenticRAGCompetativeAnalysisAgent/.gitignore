@@ -1,0 +1,28 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environment
+comp_analyz_venv/
+
+# Local environment variables
+.env
+
+# Build and cache directories
+index_storage/
+*.log
+
+# User files and local exports
+*.pdf
+pdf_text.txt
+.vscode/
+
+# Debug and temporary files
+*.swp
+*.swo
+.DS_Store
+
+# Do not commit helper scripts or temporary tools
+/tools/

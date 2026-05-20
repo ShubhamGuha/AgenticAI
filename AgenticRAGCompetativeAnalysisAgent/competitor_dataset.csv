@@ -1,0 +1,35 @@
+CompetitorName,ProductDescription,MarketingStrategy,Quarter,Revenue (USD M),ProfitMargin (%),YoYGrowth (%)
+AlphaTech Solutions,"AI-powered project management SaaS","Content marketing, LinkedIn ads, webinars",Q1 2025,2.8,17,24
+AlphaTech Solutions,"AI-powered project management SaaS","Content marketing, LinkedIn ads, webinars",Q2 2025,3.0,18,25
+AlphaTech Solutions,"AI-powered project management SaaS","Content marketing, LinkedIn ads, webinars",Q3 2025,3.1,19,26
+AlphaTech Solutions,"AI-powered project management SaaS","Content marketing, LinkedIn ads, webinars",Q4 2025,3.1,18,25
+
+BetaSoft Inc.,"Cloud-based CRM for SMEs","Email campaigns, SEO, influencer partnerships",Q1 2025,1.9,11,14
+BetaSoft Inc.,"Cloud-based CRM for SMEs","Email campaigns, SEO, influencer partnerships",Q2 2025,2.0,12,15
+BetaSoft Inc.,"Cloud-based CRM for SMEs","Email campaigns, SEO, influencer partnerships",Q3 2025,2.1,13,16
+BetaSoft Inc.,"Cloud-based CRM for SMEs","Email campaigns, SEO, influencer partnerships",Q4 2025,2.0,12,15
+
+GammaWorks,"Freelance marketplace with AI matching","Social media ads, referral programs, YouTube tutorials",Q1 2025,4.8,21,29
+GammaWorks,"Freelance marketplace with AI matching","Social media ads, referral programs, YouTube tutorials",Q2 2025,5.0,22,30
+GammaWorks,"Freelance marketplace with AI matching","Social media ads, referral programs, YouTube tutorials",Q3 2025,5.1,23,31
+GammaWorks,"Freelance marketplace with AI matching","Social media ads, referral programs, YouTube tutorials",Q4 2025,5.1,22,30
+
+DeltaAI Labs,"Generative AI writing assistant","Aggressive PPC ads, affiliate marketing, podcast sponsorships",Q1 2025,3.6,19,27
+DeltaAI Labs,"Generative AI writing assistant","Aggressive PPC ads, affiliate marketing, podcast sponsorships",Q2 2025,3.7,20,28
+DeltaAI Labs,"Generative AI writing assistant","Aggressive PPC ads, affiliate marketing, podcast sponsorships",Q3 2025,3.8,21,29
+DeltaAI Labs,"Generative AI writing assistant","Aggressive PPC ads, affiliate marketing, podcast sponsorships",Q4 2025,3.9,20,28
+
+Epsilon Systems,"Hybrid B2B/B2C e-learning platform","Community building, free trials, partnerships with universities",Q1 2025,2.4,13,17
+Epsilon Systems,"Hybrid B2B/B2C e-learning platform","Community building, free trials, partnerships with universities",Q2 2025,2.5,14,18
+Epsilon Systems,"Hybrid B2B/B2C e-learning platform","Community building, free trials, partnerships with universities",Q3 2025,2.6,15,19
+Epsilon Systems,"Hybrid B2B/B2C e-learning platform","Community building, free trials, partnerships with universities",Q4 2025,2.5,14,18
+
+ZetaCloud,"Low-cost cloud hosting for startups","Discount pricing, developer evangelism, hackathon sponsorships",Q1 2025,1.4,9,11
+ZetaCloud,"Low-cost cloud hosting for startups","Discount pricing, developer evangelism, hackathon sponsorships",Q2 2025,1.5,10,12
+ZetaCloud,"Low-cost cloud hosting for startups","Discount pricing, developer evangelism, hackathon sponsorships",Q3 2025,1.6,11,13
+ZetaCloud,"Low-cost cloud hosting for startups","Discount pricing, developer evangelism, hackathon sponsorships",Q4 2025,1.5,10,12
+
+ThetaBooks,"AI-powered book creation SaaS","YouTube marketing, collaborations with authors, Instagram reels",Q1 2025,1.2,15,19
+ThetaBooks,"AI-powered book creation SaaS","YouTube marketing, collaborations with authors, Instagram reels",Q2 2025,1.3,16,20
+ThetaBooks,"AI-powered book creation SaaS","YouTube marketing, collaborations with authors, Instagram reels",Q3 2025,1.3,17,21
+ThetaBooks,"AI-powered book creation SaaS","YouTube marketing, collaborations with authors, Instagram reels",Q4 2025,1.2,16,20
