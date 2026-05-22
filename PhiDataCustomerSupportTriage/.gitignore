@@ -1,0 +1,110 @@
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# Virtual Environments
+venv/
+cust_supp_venv/
+ENV/
+env/
+.venv
+env.bak/
+venv.bak/
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.project
+.pydevproject
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.hypothesis/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# Data Files (large/sensitive)
+*.csv
+*.xlsx
+*.xls
+*.json
+*.db
+*.sqlite
+*.sqlite3
+
+# PDFs (documentation & samples)
+*.pdf
+
+# Sensitive/Temporary Files
+*.log
+*.pot
+temp/
+tmp/
+*.bak
+*.tmp
+*.swp
+.cache/
+
+# OS-specific
+Thumbs.db
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Streamlit specific
+.streamlit/
+*.streamlit.json
+
+# Pinecone / Vector DB
+*.pinecone
+.pinecone/
+
+# Node modules (if any frontend bundling)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Misc
+.env.bak
+*.pid
+.vagrant/
+.vagrant
+*.box

@@ -1,0 +1,10 @@
+streamlit
+pandas
+python-dotenv
+pinecone
+sentence-transformers
+phidata
+pyreadline3
+google-genai
+torchvision>=0.18.1
+pdfplumber
