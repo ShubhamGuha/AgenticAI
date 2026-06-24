@@ -1,0 +1,40 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+prompt_eng_venv/
+.venv/
+venv/
+env/
+ENV/
+
+# Environment files
+.env
+.env.*
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Streamlit / local runtime files
+.streamlit/secrets.toml
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Documents and media that should not be committed
+*.pdf
+*.doc
+*.docx
+*.xls
+*.xlsx
+*.ppt
+*.pptx
+*.zip
+*.rar
+*.tar
+*.gz
+*.7z

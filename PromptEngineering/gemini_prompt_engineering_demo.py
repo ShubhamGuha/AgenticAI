@@ -30,7 +30,7 @@ def build_model():
     return genai.GenerativeModel(model_id)
 
 
-def call_model(prompt: str, system_prompt: str = "", temperature: float = 0.2, max_tokens: int = 700, response_format=None):
+def call_model(prompt: str, system_prompt: str = "", temperature: float = 0.2, max_tokens: int = 220, response_format=None):
     """Send a prompt to Gemini and return the model response text."""
     model = build_model()
     full_prompt = prompt if not system_prompt else f"{system_prompt}\n\n{prompt}"
@@ -55,15 +55,21 @@ def extract_numeric_answer(text: str) -> str:
     return matches[-1] if matches else "?"
 
 
-def render_section(title: str, description: str, prompt: str, system_prompt: str = ""):
+def render_section(title: str, description: str, prompt: str, system_prompt: str = "", max_tokens: int = 220):
     """Render one demo section with a prompt, a run button, and the returned response."""
     st.markdown(f"### {title}")
     st.caption(description)
+    st.info(f"Estimated output budget: {max_tokens} tokens")
     st.code(prompt, language="text")
     if st.button(f"Run {title}", key=title.replace(" ", "_").lower()):
         with st.spinner("Calling Gemini..."):
             try:
-                response = call_model(prompt, system_prompt=system_prompt, temperature=0.2)
+                response = call_model(
+                    prompt,
+                    system_prompt=system_prompt,
+                    temperature=st.session_state.get("temperature", 0.2),
+                    max_tokens=max_tokens,
+                )
             except Exception as exc:
                 st.error(f"Gemini API call failed: {exc}")
                 return
@@ -82,6 +88,7 @@ def main():
         st.text_input("Gemini API key", key="google_api_key", type="password", value=get_setting("GOOGLE_API_KEY"))
         st.text_input("Model ID", key="model_id", value=get_setting("GOOGLE_MODEL_ID", "gemini-2.5-flash"))
         st.slider("Default temperature", 0.0, 1.0, 0.2, key="temperature")
+        st.caption("Each demo uses a small output budget to reduce token consumption.")
 
     tabs = st.tabs([
         "1. Zero-shot",
@@ -106,7 +113,8 @@ Ticket: The package arrived two days late and the tracking page never updated af
             "Zero-shot",
             "Ask the model to solve a task directly without showing examples.",
             prompt,
-            system_prompt="You are a precise support-ticket classifier.",
+            system_prompt="You are a precise support-ticket classifier. Reply with one word only.",
+            max_tokens=80,
         )
 
     with tabs[1]:
@@ -124,7 +132,7 @@ Example 3:
 Input: 'My subscription renewed twice this month.'
 Output: billing
 
-Now label these:
+Now label these three requests. Return exactly three labels, one per line, in the same order as the questions.
 1. 'I paid twice and the receipt is missing.'
 2. 'The smart bulb arrived broken and I want a replacement.'
 3. 'The app says my password is invalid even though I changed it.'"""
@@ -132,6 +140,7 @@ Now label these:
             "Few-shot",
             "Give the model a few examples so it learns the desired pattern.",
             prompt,
+            max_tokens=120,
         )
 
     with tabs[2]:
@@ -142,7 +151,8 @@ Solve this step by step before giving the final answer."""
             "Chain-of-Thought",
             "Show the model how to work through a multi-step problem before answering.",
             prompt,
-            system_prompt="You are a careful arithmetic tutor. Show the steps clearly and finish with a final answer.",
+            system_prompt="You are a careful arithmetic tutor. Keep the reasoning brief and end with a short final answer.",
+            max_tokens=180,
         )
 
     with tabs[3]:
@@ -151,6 +161,7 @@ Solve this step by step before giving the final answer."""
             "Zero-shot CoT",
             "Add a lightweight reasoning trigger such as 'Let's think step by step.'",
             prompt,
+            max_tokens=140,
         )
 
     with tabs[4]:
@@ -163,13 +174,13 @@ Solve this step by step before giving the final answer."""
             with st.spinner("Sampling multiple reasoning paths..."):
                 try:
                     answers = []
-                    for i in range(4):
-                        response = call_model(prompt, temperature=0.9)
+                    for i in range(3):
+                        response = call_model(prompt, temperature=0.9, max_tokens=120)
                         answers.append(response.strip())
                     counts = {}
                     for answer in answers:
                         counts[answer] = counts.get(answer, 0) + 1
-                    st.success("Completed 4 reasoning paths")
+                    st.success("Completed 3 reasoning paths")
                     st.write("### Outputs")
                     for index, answer in enumerate(answers, 1):
                         st.write(f"{index}. {answer}")
@@ -192,7 +203,8 @@ Instructions:
             "Tree of Thoughts",
             "Explore multiple branches of reasoning and prune weak ones.",
             prompt,
-            system_prompt="You are a deliberate puzzle solver. Show branching ideas and then finish with the best solution.",
+            system_prompt="You are a deliberate puzzle solver. Keep the explanation short and finish with the best solution.",
+            max_tokens=180,
         )
 
     with tabs[6]:
@@ -211,6 +223,7 @@ Final Answer: ..."""
             "Combine reasoning and tool-like actions in a loop.",
             prompt,
             system_prompt="You are a helpful research assistant. Follow the Thought → Action → Observation loop and keep the steps brief.",
+            max_tokens=180,
         )
 
     with tabs[7]:
@@ -220,6 +233,7 @@ Final Answer: ..."""
             "Assign the model an expert persona to steer its tone and depth.",
             prompt,
             system_prompt="You are an experienced urban planning consultant who writes practical, concise recommendations for city leaders.",
+            max_tokens=160,
         )
 
     with tabs[8]:
@@ -235,6 +249,7 @@ Please create:
             "Ask the model to design or improve the prompt itself.",
             prompt,
             system_prompt="You are an expert prompt engineer who writes production-ready prompts.",
+            max_tokens=180,
         )
 
     with tabs[9]:
@@ -254,7 +269,8 @@ Return this schema:
             "Structured output",
             "Force the model to return structured JSON instead of free-form text.",
             prompt,
-            system_prompt="You are a support analyst. Return only valid JSON and do not include markdown fences.",
+            system_prompt="You are a support analyst. Return compact valid JSON only and do not include markdown fences.",
+            max_tokens=180,
         )
 
     with tabs[10]:
@@ -269,10 +285,12 @@ Return this schema:
                     step1 = call_model(
                         f"Extract the main facts from this article into 3 bullet points.\n\n{article}",
                         system_prompt="You are a precise information extractor.",
+                        max_tokens=140,
                     )
                     step2 = call_model(
                         f"Using the bullet points below, write a single-sentence executive summary.\n\n{step1}",
                         system_prompt="You are a concise business writer.",
+                        max_tokens=120,
                     )
                 except Exception as exc:
                     st.error(f"Gemini API call failed: {exc}")
