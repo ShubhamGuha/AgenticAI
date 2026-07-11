@@ -1,0 +1,11 @@
+crewai
+google-generativeai
+duckduckgo_search
+yfinance
+pandas
+beautifulsoup4
+python-dotenv
+crewai-tools
+crewai[google-genai]
+langchain
+langgraph
