@@ -1,0 +1,6 @@
+streamlit
+autogen
+google-generativeai
+python-dotenv
+python-docx
+fpdf
