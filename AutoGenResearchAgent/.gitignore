@@ -10,9 +10,9 @@ venv/
 env/
 autogen_venv/
 
-# Streamlit / local runtime state
+# Streamlit local state and secrets
+.streamlit/
 .streamlit/secrets.toml
-.streamlit/config.toml
 
 # Environment files and secrets
 .env
@@ -24,8 +24,9 @@ autogen_venv/
 *.docx
 *.csv
 *.xlsx
+*.xls
 
-# Local notebooks and logs
+# Logs and notebooks
 *.log
 .ipynb_checkpoints/
 
