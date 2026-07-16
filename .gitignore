@@ -29,6 +29,13 @@ htmlcov/
 chroma_store/
 .ipynb_checkpoints/
 
+# Project artifacts
+*.pdf
+
+# Ignore nested .gitignore files, but keep the repo root one tracked
+**/.gitignore
+!/.gitignore
+
 # OS/editor files
 .DS_Store
 .idea/
