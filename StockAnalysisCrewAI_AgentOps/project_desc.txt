@@ -1,0 +1,170 @@
+1
+Module 9: AI Agent Observability and AgentOPs
+Demo 2
+2
+Demo: AgentOps Practical Implementation
+NOTE: This Demonstration has been implemented on Google Colab.
+Overview
+This documentation demonstrates the practical implementation of AgentOps observability platform integrated with a CrewAI-based stock analysis workflow. While the core stock analysis demonstartion was covered in Module 7, this implementation focuses specifically on adding comprehensive monitoring, logging and observability to agent systems using AgentOps.
+Scenario
+A financial technology company needs to deploy an automated stock analysis system that can provide real-time insights to investment advisors. However, they require full visibility into their AI agents' performance, decision-making processes and operational metrics to ensure reliability and compliance with financial regulations.
+Problem Statement
+When deploying multi-agent systems in production environments, organizations face several critical challenges:
+•
+Lack of Visibility: Traditional AI workflows operate as "black boxes" with no insight into agent interactions, decision paths, or performance metrics
+•
+Debugging Complexity: When multi-agent systems fail or produce unexpected results, it's difficult to identify which agent, task, or interaction caused the issue
+•
+Performance Monitoring: Without proper observability, teams cannot track response times, success rates, or resource utilization across different agents
+•
+Compliance Requirements: Financial applications require detailed audit trails and logging for regulatory compliance
+Solution: AgentOps Integration
+AgentOps provides comprehensive observability for AI agent workflows by offering:
+3
+•
+Real-time Monitoring: Track agent execution, task completion and system performance in real-time
+•
+Detailed Logging: Capture every agent interaction, tool usage and decision point
+•
+Performance Analytics: Monitor response times, success rates and resource utilization
+•
+Visual Workflow Tracking: See how agents collaborate and tasks flow through the system
+•
+Error Tracking: Identify and debug issues with detailed error logs and stack traces
+Setup and Installation
+Prerequisites
+•
+Python 3.8 or higher
+•
+Google Gemini API Key
+•
+AgentOps API Key (sign up at agentops.ai)
+Installation Steps
+Open and run the Jupyter Notebook:
+Open `AgentOps_Practical_Implementation.ipynb` in Google Colab.
+Run all the cells in the notebook.
+Install Dependencies The following command installs all required packages including AgentOps integration:
+pip install crewai crewai-tools agentops google-generativeai duckduckgo_search yfinance pandas beautifulsoup4 python-dotenv
+Key Dependencies Explained:
+•
+agentops: Core observability platform for AI agents
+4
+•
+crewai: Multi-agent orchestration framework
+•
+google-generativeai: Gemini LLM integration
+•
+yfinance: Financial data retrieval
+•
+duckduckgo_search: Web search capabilities
+Steps to Generate AgentOps API Key
+1.
+Visit the AgentOps Website
+Go to https://www.agentops.ai
+2.
+Sign Up or Log In with you mail.
+5
+Use your Google account or another supported login method to access your dashboard.
+3.
+Access the AgentOps Dashboard
+Once logged in, you’ll be redirected to the AgentOps dashboard.
+This is where you can monitor your agents and manage your settings.
+4.
+Navigate to API Keys
+Navigate to API Keys from the profile settings, find and click on “API Keys” and then click on “Projects &API Keys”
+6
+Environment Setup Create a .env file for secure API key storage:
+1.
+GEMINI_API_KEY=your_gemini_api_key_here
+2.
+AGENTOPS_API_KEY=your_agentops_api_key_here
+Implementation Steps
+STEP 1: Install Dependencies
+pip install crewai crewai-tools agentops google-generativeai duckduckgo_search yfinance pandas beautifulsoup4 python-dotenv
+Step 2: Import Dependencies with AgentOps
+AgentOps Integration Point: The import agentops statement brings in the observability framework that will monitor all agent activities. This import is crucial as it enables the tracking capabilities throughout the entire workflow.
+7
+Step 3: API Key Configuration and AgentOps Initialization
+AgentOps Functionality:
+•
+agentops.init() establishes connection to the AgentOps platform
+•
+Creates a new monitoring session that will track all subsequent agent activities
+•
+Returns a session object that manages the connection and data flow
+•
+All agent interactions, tool usage and performance metrics will be automatically captured from this point forward
+Step 4: LLM Configuration
+AgentOps Monitoring: Once AgentOps is initialized, it automatically tracks LLM usage including token consumption, response times and model performance metrics.
+8
+Step 5: Custom Tool Definition
+AgentOps Tool Tracking: AgentOps automatically monitors:
+•
+Tool execution frequency and duration
+•
+Input parameters and output results
+•
+Success/failure rates for each tool
+Step 6: Agent Definition with AgentOps Integration
+9
+Critical AgentOps Feature: The agentops_enabled=True parameter is the key integration point that enables comprehensive monitoring for each agent. This setting ensures:
+•
+Agent Lifecycle Tracking: Monitor when agents start, complete tasks, or encounter errors
+•
+Decision Path Logging: Track the reasoning process and decision points of each agent
+•
+Interaction Mapping: Record how agents communicate and collaborate
+•
+Performance Metrics: Measure response times, task completion rates and resource usage per agent
+•
+Conversation History: Maintain detailed logs of all agent interactions and outputs
+Step 7: Task Configuration
+AgentOps Task Monitoring: Each task execution is tracked with:
+•
+Task start and completion timestamps
+10
+•
+Agent assignment and tool usage
+•
+Success/failure status and error details
+•
+Task dependencies and execution order
+•
+Output quality and expected vs actual results
+Step 8: Crew Assembly
+AgentOps Crew Tracking: The crew orchestration is monitored to provide:
+•
+Workflow visualization showing task dependencies
+•
+Agent collaboration patterns
+•
+Overall crew performance metrics
+•
+Bottleneck identification and optimization suggestions
+Step 9: Execution with Full Observability
+11
+AgentOps Execution Monitoring: During the crew.kickoff() execution, AgentOps captures:
+•
+Real-time Progress: Live updates on task execution status
+•
+Performance Metrics: Response times, token usage and resource consumption
+•
+Error Handling: Detailed error logs with stack traces and context
+•
+Success Tracking: Completion rates and output quality assessments
+•
+Session Management: Automatic session closure and data persistence
+AgentOps Dashboard
+12
+Overall Metrics: Displays key performance indicators such as total cost, token usage, failure rate and number of trace events over the selected date range.
+Trace List Entry: Shows detailed info for each workflow trace including name, timestamp, status, execution duration, number of spans and error count.
+Traces in AgentOps
+1.
+Session Replay: Visualize the step-by-step execution flow of an agent's actions, tools and decisions.
+2.
+Agents: View and manage the autonomous agents involved in processing tasks and making decisions.
+3.
+Tasks and Outputs: Track assigned tasks and inspect the corresponding generated outputs by the agents.
+4.
+Terminal Logs: Access detailed backend logs for debugging and monitoring system-level operations during task execution.
+This implementation showcases how AgentOps converts unclear AI agent processes into completely visible, tracked and enhanced systems. With the addition of a few lines of code (import agentops, agentops.init() and agentops_enabled=True), teams obtain in-depth insights into their multi-agent systems, facilitating dependable production deployments and ongoing enhancements
