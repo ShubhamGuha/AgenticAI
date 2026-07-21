@@ -1,0 +1,7 @@
+langfuse
+langgraph
+langchain
+langchain-community
+groq
+requests
+duckduckgo-search
